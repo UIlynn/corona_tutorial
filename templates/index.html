@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코로나 현황</title>
+    <style>
+        .box{
+            height:30px;
+            width:100px;
+            border:1px solid black;
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <h1>코로나 전체 현황</h1>
+    {{corona_data}}
+
+    {% for k,v in corona_data.items() %}
+        <br>{{k}} : {{v}} 명 
+        <div class="box" style="width:{{v}}px"></div>
+    {% endfor %}
+
+</body>
+</html>
