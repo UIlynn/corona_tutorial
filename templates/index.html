@@ -22,5 +22,7 @@
         <div class="box" style="width:{{v}}px"></div>
     {% endfor %}
 
+    {% set list_data = [1,2,3,4,5] %}
+    {{list_data|sum / list_data|length}}
 </body>
 </html>
