@@ -10,7 +10,14 @@
 - {# : comment start string : 주석 시작 기호
 - }# : comment end string : 주석 끝 기호
 
-# **예시 1 반복문**
+# **예제 1 - 반복문**
+```html
+    {% for i in range(10) %}
+        양산하고 싶은 html
+    {% endfor %}
+```
+
+
 ```html
 숫자 출력 : {% for i in range(10) %} {{i}} {% endfor %}
 ```
@@ -18,7 +25,7 @@
 - 반복문 끝을 위해 {% endfor %} 가 작성되었다.
 - 변수 출력을 위해 {{변수명}} 이 사용되었다.
 
-# **예시 2 조건문**
+# **예제 2 - 조건문**
 ```html
 <div>
     {% if x > 3 %}
@@ -29,7 +36,7 @@
 </div>
 ```
 
-# **예시 3 변수, 리스트, 딕셔너리 가져올 때**
+# **예제 3 - 변수, 리스트, 딕셔너리 가져올 때**
 - javascript와 유사하다
 ```html
 {변수명}
@@ -51,7 +58,7 @@
 # **내장필터 length**
 - `{{[1,2,3,4,5,6]|length}}` -> 6
 
-# **평균 구하기 예제**
+# **예제 4 - 평균 구하기**
 ```html
 {{[1,2,3,4,5]|sum / [1,2,3,4,5]|length}}
 ```
@@ -60,3 +67,52 @@
 {% set list_data = [1,2,3,4,5] %}
 {{list_data|sum / list_data|length}}
 ```
+
+# **페이지 상속**
+- 베이스 html을 만들어두고 재활용 하는 방법
+
+### **base.html**
+- 기본적인 구조를 짜놓는다.
+- 나중에 다른 요소가 들어갈 구멍을 뚫어놓는다.
+- 구멍은 `{% block 구멍이름 %} {% endblock %}` 로 정의
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="style.css" />
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>.
+        {% endblock %}
+    </div>
+</body>
+</html>
+```
+
+### **children.html**
+- `{% extends "base.html" %}` : base가 될 레이아웃을 참조
+- `{% block 구멍이름 %}` 채워넣을 내용 {% endblock %}
+- `{{super()}}` : base의 html을 사용(렌더링)하고싶을 때 사용
+```html
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Index</h1>
+    <p class="important">
+      Welcome to my awesome homepage.
+    </p>
+{% endblock %}
+```
+
